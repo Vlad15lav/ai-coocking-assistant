@@ -10,6 +10,8 @@ from src.model.agent import AgentSystem
 
 @st.cache_resource
 def load_agent():
+    """Инициализация агента из cache
+    """
     llm = ChatOpenAI(
         base_url="https://api.groq.com/openai/v1",
         model="llama-3.1-70b-versatile",
@@ -33,14 +35,17 @@ def load_agent():
     return agent_executor
 
 
+# Инициализация агента
+agent_executor = load_agent()
+
+# Параметры страницы
 st.set_page_config(
         page_title="AI Coocking Assistant | Chat",
         page_icon="🤖",
         layout="wide"
     )
 
-agent_executor = load_agent()
-
+# Левый sidebar
 with st.sidebar:
     st.title("🍳 AI Coocking Assistant 🤖")
     st.subheader("Your Chef Assistant")
@@ -62,31 +67,37 @@ with st.sidebar:
 
 st.title("Your Chat")
 
+# Инициализация сессии
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
+# Ввод запроса пользователя
 audio_input = st.experimental_audio_input("Голосовой запрос")
 text_input = st.chat_input("Ваш запрос")
 
+# Логика ChatBot
 if text_input or audio_input:
     user_query = text_input
 
     if user_query:
+        # Вызов агента
         agent_result = agent_executor.invoke(user_query)
 
+        # Запрос пользователя
         st.session_state.messages.append(
             {
                 "role": "user",
                 "content": user_query
             })
 
+        # Ответ агента
         st.session_state.messages.append(
             {
                 "role": "assistant",
                 "content": agent_result['output']
             })
 
-# Display chat messages from history on app rerun
+# Вывод чата из сессии
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
