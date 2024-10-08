@@ -6,12 +6,14 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
 
 from src.model.agent import AgentSystem
+from src.tools.downloader import download_from_yandex
 
 
 @st.cache_resource
 def load_agent():
-    """Инициализация агента из cache
+    """Инициализация агента из cache streamlit
     """
+    # Инициализация LLM
     llm = ChatOpenAI(
         base_url="https://api.groq.com/openai/v1",
         model="llama-3.1-70b-versatile",
@@ -19,6 +21,22 @@ def load_agent():
         temperature=0.0
     )
 
+    # Скачивание FAISS индекса
+    faiss_index_path = "data/processed/food_faiss_index"
+
+    if not os.path.exists(faiss_index_path + "index.faiss"):
+        download_from_yandex(
+            public_link="https://disk.yandex.ru/d/P2qlEw1CgZNMIA",
+            save_path=faiss_index_path
+            )
+
+    if not os.path.exists(faiss_index_path + "index.pkl"):
+        download_from_yandex(
+            public_link="https://disk.yandex.ru/d/W-P2GCK64yNufQ",
+            save_path=faiss_index_path
+            )
+
+    # Инициализация ретривера
     db = FAISS.load_local(
         folder_path="data/processed/food_faiss_index",
         embeddings=HuggingFaceEmbeddings(model_name="sergeyzh/LaBSE-ru-turbo"),
@@ -30,6 +48,7 @@ def load_agent():
         search_kwargs={'k': 3}
     )
 
+    # Инициализация агента
     agent_executor = AgentSystem(llm=llm, retriever=retriever)
 
     return agent_executor
