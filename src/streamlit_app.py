@@ -35,15 +35,15 @@ def load_agent():
     return agent_executor
 
 
-# Инициализация агента
-agent_executor = load_agent()
-
 # Параметры страницы
 st.set_page_config(
         page_title="AI Coocking Assistant | Chat",
         page_icon="🤖",
         layout="wide"
     )
+
+# Инициализация агента
+agent_executor = load_agent()
 
 # Левый sidebar
 with st.sidebar:
