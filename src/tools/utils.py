@@ -1,4 +1,10 @@
+import os
 import re
+import requests
+import aiohttp
+
+from PIL import Image
+from duckduckgo_search import DDGS
 
 
 def clean_input(input_string: str) -> str:
@@ -40,3 +46,37 @@ def format_docs_with_links(docs) -> str:
         return f"{d.page_content}\nПодробнее:{d.metadata['Ссылка']}"
 
     return "\n\n".join([helper(d) for d in docs])
+
+
+def search_image(dict_input: dict) -> dict:
+    """Поиск изображения по запросу
+
+    Args:
+        dict_input (dict): Входная цепочка
+
+    Returns:
+        dict: Цепочка с изображением и мета данными
+    """
+    try:
+        urls_images = DDGS().images(
+            keywords=dict_input["query"],
+            region='ru-ru',
+            safesearch='off',
+            type_image="photo",
+            max_results=1
+            )
+
+        image_link = urls_images[0]['image']
+        url = urls_images[0]['url']
+        img = Image.open(requests.get(image_link, stream=True).raw)
+    except Exception:
+        img, image_link, url = None, None, None
+
+    result_dict = {
+        "output": img,
+        "image": image_link,
+        "url": url,
+        "task": "Search Image"
+        }
+
+    return result_dict
