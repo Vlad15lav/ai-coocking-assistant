@@ -93,4 +93,5 @@ target/
 
 # other files
 *.ipynb
+!project-demo.ipynb
 food_faiss_index
