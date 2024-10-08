@@ -25,3 +25,18 @@ def format_docs(docs) -> str:
         (str): Строка со всеми документами
     """
     return "\n\n".join([d.page_content for d in docs])
+
+
+def format_docs_with_links(docs) -> str:
+    """Форматирование документов в единную строку и добвляет метаданные
+
+    Args:
+        docs: Документы от ретривера
+
+    Returns:
+        (str): Строка со всеми документами
+    """
+    def helper(d):
+        return f"{d.page_content}\nПодробнее:{d.metadata['Ссылка']}"
+
+    return "\n\n".join([helper(d) for d in docs])
