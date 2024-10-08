@@ -69,10 +69,7 @@ audio_input = st.experimental_audio_input("Голосовой запрос")
 text_input = st.chat_input("Ваш запрос")
 
 if text_input or audio_input:
-    user_query = None
-
-    if text_input:
-        user_query = text_input
+    user_query = text_input
 
     if user_query:
         agent_result = agent_executor.invoke(user_query)
