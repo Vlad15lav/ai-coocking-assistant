@@ -1,7 +1,5 @@
-import os
 import re
 import requests
-import aiohttp
 
 from PIL import Image
 from duckduckgo_search import DDGS
