@@ -4,7 +4,7 @@ from langchain_core.prompts import PromptTemplate
 from langchain_core.runnables import RunnableLambda, RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
 
-from src.model.agent import (
+from src.model.prompt import (
     PROMPT_CLASSIFIER,
     PROMPT_ASSISTANT,
     PROMPT_RECOMMENDER,
