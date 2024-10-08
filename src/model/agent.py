@@ -4,14 +4,14 @@ from langchain_core.prompts import PromptTemplate
 from langchain_core.runnables import RunnableLambda, RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
 
-from src.model.prompt import (
+from model.prompt import (
     PROMPT_CLASSIFIER,
     PROMPT_ASSISTANT,
     PROMPT_RECOMMENDER,
     PROMPT_GENERATER,
     PROMPT_SEARCH
 )
-from src.tools.utils import (
+from tools.utils import (
     clean_input,
     format_docs,
     format_docs_with_links,

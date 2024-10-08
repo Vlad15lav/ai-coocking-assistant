@@ -5,8 +5,8 @@ from langchain_openai import ChatOpenAI
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
 
-from src.model.agent import AgentSystem
-from src.tools.downloader import download_from_yandex
+from model.agent import AgentSystem
+from tools.downloader import download_from_yandex
 
 
 @st.cache_resource
