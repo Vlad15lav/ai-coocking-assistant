@@ -92,6 +92,7 @@ target/
 *.csv
 
 # other files
+*.pdf
 *.ipynb
 !project-demo.ipynb
 food_faiss_index
