@@ -119,4 +119,7 @@ if text_input or audio_input:
 # Вывод чата из сессии
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
-        st.markdown(message["content"])
+        if isinstance(message["content"], str):
+            st.markdown(message["content"])
+        else:
+            st.image(message["content"])
