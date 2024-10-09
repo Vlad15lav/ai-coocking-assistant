@@ -90,6 +90,10 @@ st.title("Your Chat")
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
+# Ввод запроса пользователя
+audio_input = st.experimental_audio_input("Голосовой запрос")
+text_input = st.chat_input("Ваш запрос")
+
 # Вывод чата из сессии
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
@@ -102,11 +106,6 @@ for message in st.session_state.messages:
                 image=image_content['image'],
                 caption=image_content['caption']
                 )
-
-
-# Ввод запроса пользователя
-audio_input = st.experimental_audio_input("Голосовой запрос")
-text_input = st.chat_input("Ваш запрос")
 
 # Логика ChatBot
 if text_input or audio_input:
@@ -125,6 +124,7 @@ if text_input or audio_input:
 
         # Вызов агента
         agent_result = agent_executor.invoke(user_query)
+        print(agent_result)
 
         # Ответ агента
         with st.chat_message("assistant"):
