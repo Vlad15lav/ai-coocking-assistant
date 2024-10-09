@@ -1,8 +1,8 @@
-import os
 import re
 import requests
 import aiohttp
 import logging
+import streamlit as st
 
 from PIL import Image
 from duckduckgo_search import DDGS
@@ -87,7 +87,7 @@ def search_image(dict_input: dict) -> dict:
 async def spech2text(audio_file) -> dict:
     API_URL = "https://api-inference.huggingface.co/models/openai/" + \
         "whisper-large-v3-turbo"
-    headers = {"Authorization": f'Bearer {os.environ["HF_TOKEN"]}'}
+    headers = {"Authorization": f'Bearer {st.secrets["HF_TOKEN"]}'}
 
     async with aiohttp.ClientSession() as session:
         async with session.post(
