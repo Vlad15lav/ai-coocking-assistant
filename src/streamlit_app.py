@@ -87,6 +87,7 @@ with st.sidebar:
     )
 
 st.title("Your Chat")
+print(st.secrets.keys())
 
 # Инициализация сессии
 if "messages" not in st.session_state:
