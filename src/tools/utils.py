@@ -1,5 +1,6 @@
 import re
 import requests
+import logging
 
 from PIL import Image
 from duckduckgo_search import DDGS
@@ -55,6 +56,7 @@ def search_image(dict_input: dict) -> dict:
     Returns:
         dict: Цепочка с изображением и мета данными
     """
+    img, image_link, url = None, None, None
     try:
         urls_images = DDGS().images(
             keywords=dict_input["query"],
@@ -65,10 +67,12 @@ def search_image(dict_input: dict) -> dict:
             )
 
         image_link = urls_images[0]['image']
-        url = urls_images[0]['url']
+        url = urls_images[0]['url'].rstrip("/")
         img = Image.open(requests.get(image_link, stream=True).raw)
-    except Exception:
-        img, image_link, url = None, None, None
+    except Exception as e:
+        img = "Не могу найти изображение, попробуйте чуть позже!😓"
+
+        logging.error(e)
 
     result_dict = {
         "output": img,
