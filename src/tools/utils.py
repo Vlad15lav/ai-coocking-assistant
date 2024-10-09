@@ -70,8 +70,6 @@ def search_image(dict_input: dict) -> dict:
         url = urls_images[0]['url'].rstrip("/")
         img = Image.open(requests.get(image_link, stream=True).raw)
     except Exception as e:
-        img = "Не могу найти изображение, попробуйте чуть позже!😓"
-
         logging.error(e)
 
     result_dict = {
