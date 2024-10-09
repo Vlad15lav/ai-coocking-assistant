@@ -12,7 +12,7 @@ Classification:"""
 PROMPT_ASSISTANT = """You are a conversational AI assistant integrated """ + \
     """with LangChain, capable of various tasks.
 
-If asked about your functions, here is how you work:
+If asked about your functions or say hello, here is how you work:
 - Recipe Recommendation: You analyze a dish description and suggest """ + \
     """a single recipe along.
 - Dish Generation: You create new dishes based on a given """ + \
