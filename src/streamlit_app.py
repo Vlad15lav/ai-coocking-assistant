@@ -85,6 +85,8 @@ with st.sidebar:
         Let's cook together!
         """
     )
+    # Голосовой ввод
+    audio_input = st.experimental_audio_input("Голосовой запрос🎙️")
 
 st.title("Your Chat")
 
@@ -93,7 +95,6 @@ if "messages" not in st.session_state:
     st.session_state.messages = []
 
 # Ввод запроса пользователя
-audio_input = st.experimental_audio_input("Голосовой запрос")
 text_input = st.chat_input("Ваш запрос")
 
 # Вывод чата из сессии
@@ -112,48 +113,47 @@ for message in st.session_state.messages:
 # Логика ChatBot
 if text_input or audio_input:
     user_query = text_input
-    if audio_input:
+    if text_input is None:
         speech_text = asyncio.run(spech2text(audio_file=audio_input))
         user_query = speech_text['text'].strip()
 
-    if user_query:
-        # Запрос пользователя
-        with st.chat_message("user"):
-            st.markdown(user_query)
+    # Запрос пользователя
+    with st.chat_message("user"):
+        st.markdown(user_query)
 
-        st.session_state.messages.append(
-            {
-                "role": "user",
-                "content": user_query
-            })
+    st.session_state.messages.append(
+        {
+            "role": "user",
+            "content": user_query
+        })
 
-        # Вызов агента
-        agent_result = agent_executor.invoke(user_query)
+    # Вызов агента
+    agent_result = agent_executor.invoke(user_query)
 
-        # Ответ агента
-        with st.chat_message("assistant"):
-            if isinstance(agent_result['output'], str):
-                agent_content = agent_result['output']
+    # Ответ агента
+    with st.chat_message("assistant"):
+        if isinstance(agent_result['output'], str):
+            agent_content = agent_result['output']
 
-                st.markdown(agent_result['output'])
-            elif agent_result['output'] is None:
-                agent_content = "Не могу найти изображение, " + \
-                    "попробуйте чуть позже!😓"
+            st.markdown(agent_result['output'])
+        elif agent_result['output'] is None:
+            agent_content = "Не могу обработать запрос, " + \
+                "попробуйте чуть позже!😓"
 
-                st.markdown(agent_content)
-            else:
-                agent_content = {
-                    "image": agent_result['output'],
-                    "caption": "Источник: " + agent_result['url']
-                }
+            st.markdown(agent_content)
+        else:
+            agent_content = {
+                "image": agent_result['output'],
+                "caption": "Источник: " + agent_result['url']
+            }
 
-                st.image(
-                    image=agent_content['image'],
-                    caption=agent_content['caption']
-                    )
+            st.image(
+                image=agent_content['image'],
+                caption=agent_content['caption']
+                )
 
-        st.session_state.messages.append(
-            {
-                "role": "assistant",
-                "content": agent_content
-            })
+    st.session_state.messages.append(
+        {
+            "role": "assistant",
+            "content": agent_content
+        })
