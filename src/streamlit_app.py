@@ -7,6 +7,7 @@ from langchain_community.vectorstores import FAISS
 
 from model.agent import AgentSystem
 from tools.downloader import download_from_yandex
+from tools.utils import spech2text
 
 
 @st.cache_resource
@@ -110,6 +111,9 @@ for message in st.session_state.messages:
 # Логика ChatBot
 if text_input or audio_input:
     user_query = text_input
+    if audio_input:
+        speech_text = spech2text(audio_file=audio_input)
+        user_query = speech_text['text'].strip()
 
     if user_query:
         # Запрос пользователя
