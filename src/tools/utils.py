@@ -1,5 +1,7 @@
+import os
 import re
 import requests
+import aiohttp
 import logging
 
 from PIL import Image
@@ -80,3 +82,17 @@ def search_image(dict_input: dict) -> dict:
         }
 
     return result_dict
+
+
+async def spech2text(audio_file) -> dict:
+    API_URL = "https://api-inference.huggingface.co/models/openai/" + \
+        "whisper-large-v3-turbo"
+    headers = {"Authorization": f'Bearer {os.environ["HF_TOKEN"]}'}
+
+    async with aiohttp.ClientSession() as session:
+        async with session.post(
+            API_URL,
+            headers=headers,
+            data=audio_file.read()
+        ) as response:
+            return await response.json()
