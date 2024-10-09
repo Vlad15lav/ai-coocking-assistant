@@ -1,4 +1,5 @@
 import os
+import asyncio
 import streamlit as st
 
 from langchain_openai import ChatOpenAI
@@ -112,7 +113,7 @@ for message in st.session_state.messages:
 if text_input or audio_input:
     user_query = text_input
     if audio_input:
-        speech_text = await spech2text(audio_file=audio_input)
+        speech_text = asyncio.run(spech2text(audio_file=audio_input))
         user_query = speech_text['text'].strip()
 
     if user_query:
