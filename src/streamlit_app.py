@@ -19,7 +19,7 @@ def load_agent():
     llm = ChatOpenAI(
         base_url="https://api.groq.com/openai/v1",
         model="llama-3.1-70b-versatile",
-        api_key=os.environ.get("OPENAI_API_KEY"),
+        api_key=st.secrets["OPENAI_API_KEY"],
         temperature=0.0
     )
 
