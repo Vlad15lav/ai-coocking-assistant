@@ -136,7 +136,7 @@ if text_input or audio_input:
                 agent_content = "Не могу найти изображение, " + \
                     "попробуйте чуть позже!😓"
 
-                st.markdown(agent_result['output'])
+                st.markdown(agent_content)
             else:
                 agent_content = {
                     "image": agent_result['output'],
