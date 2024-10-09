@@ -90,6 +90,20 @@ st.title("Your Chat")
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
+# Вывод чата из сессии
+for message in st.session_state.messages:
+    with st.chat_message(message["role"]):
+        if isinstance(message["content"], str):
+            st.markdown(message["content"])
+        else:
+            image_content = message["content"]
+
+            st.image(
+                image=image_content['image'],
+                caption=image_content['caption']
+                )
+
+
 # Ввод запроса пользователя
 audio_input = st.experimental_audio_input("Голосовой запрос")
 text_input = st.chat_input("Ваш запрос")
@@ -99,27 +113,38 @@ if text_input or audio_input:
     user_query = text_input
 
     if user_query:
-        # Вызов агента
-        agent_result = agent_executor.invoke(user_query)
-
         # Запрос пользователя
+        with st.chat_message("user"):
+            st.markdown(user_query)
+
         st.session_state.messages.append(
             {
                 "role": "user",
                 "content": user_query
             })
 
+        # Вызов агента
+        agent_result = agent_executor.invoke(user_query)
+
         # Ответ агента
+        with st.chat_message("assistant"):
+            if isinstance(agent_result['output'], str):
+                agent_content = agent_result['output']
+
+                st.markdown(agent_result['output'])
+            else:
+                agent_content = {
+                    "image": agent_result['output'],
+                    "caption": "Источник: " + agent_result['url']
+                }
+
+                st.image(
+                    image=agent_content['image'],
+                    caption=agent_content['caption']
+                    )
+
         st.session_state.messages.append(
             {
                 "role": "assistant",
-                "content": agent_result['output']
+                "content": agent_content
             })
-
-# Вывод чата из сессии
-for message in st.session_state.messages:
-    with st.chat_message(message["role"]):
-        if isinstance(message["content"], str):
-            st.markdown(message["content"])
-        else:
-            st.image(message["content"])
