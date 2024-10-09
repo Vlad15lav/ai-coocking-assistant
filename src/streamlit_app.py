@@ -19,7 +19,7 @@ def load_agent():
     llm = ChatOpenAI(
         base_url="https://api.groq.com/openai/v1",
         model="llama-3.1-70b-versatile",
-        api_key=st.secrets["OPENAI_API_KEY"],
+        api_key=os.environ.get("OPENAI_API_KEY"),
         temperature=0.0
     )
 
@@ -87,7 +87,6 @@ with st.sidebar:
     )
 
 st.title("Your Chat")
-print(st.secrets.keys())
 
 # Инициализация сессии
 if "messages" not in st.session_state:
