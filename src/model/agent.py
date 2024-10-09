@@ -74,7 +74,8 @@ class AgentSystem:
         """Создание цепочки для для ассистента
         """
         assistant_chain = (
-            PromptTemplate.from_template(PROMPT_ASSISTANT)
+            {"query": itemgetter("input")}
+            | PromptTemplate.from_template(PROMPT_ASSISTANT)
             | self.llm
             | {"output": lambda x: x.content, "task": lambda x: "About Me"}
         )
