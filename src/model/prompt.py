@@ -1,6 +1,7 @@
 PROMPT_CLASSIFIER = """Given the user question below, classify """ + \
     """it as either being about""" + \
-    """`recommended`, `generate`, `image food`, `about me` or `other`.
+    """`recommended`, `generate`, `image food`, `hello`, """ + \
+    """`about me` or `other`.
 Do not respond with more than one word.
 
 <question>
