@@ -136,7 +136,7 @@ class AgentSystem:
         """
         info_class = dict_chain["topic"].lower()
 
-        if "about me" in info_class:
+        if "hello" in info_class or "about me" in info_class:
             return self.assistant_chain
         elif "recommended" in info_class:
             return self.recommender_chain
@@ -146,7 +146,10 @@ class AgentSystem:
             return self.search_chain
 
         other_task = {
-            "output": "К сожалению, я не понял запроса.",
+            "output": (
+                "Я не понял запроса.🤯 " +
+                "Попробуй переформулировать!🤔"
+                ),
             "task": "Unknown"
         }
 
