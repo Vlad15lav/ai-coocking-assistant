@@ -36,7 +36,7 @@
 2. Клонирование репозитория:
     ```bash
     git clone https://github.com/Vlad15lav/ai-coocking-assistant.git
-    cd ai-coocking-assistant
+    cd ./ai-coocking-assistant
     ```
 
 3. Установите необходимые зависимости:
@@ -85,5 +85,5 @@
 ## 📚Ссылки на источники
 - [Документация LangChain](https://langchain.com/docs)
 - [Groq API](https://console.groq.com)
-- [HuggingFace](https://huggingface.co/)
-- [Creating AI products by ChatGPT](https://stepik.org/course/178846/)
+- [HuggingFace](https://huggingface.co)
+- [Creating AI products by ChatGPT](https://stepik.org/course/178846)
