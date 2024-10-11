@@ -69,33 +69,33 @@ agent_executor = load_agent()
 # Левый sidebar
 with st.sidebar:
     st.title("🍳 AI Coocking Assistant 🤖")
-    st.subheader("Your Chef Assistant")
+    st.subheader("Your Smart Kitchen Guide")
     st.markdown(
         """
-        Welcome to the **AI Coocking Assistant**, your smart kitchen
-        helper powered by advanced **Large Language Model**
-        technology and **LangChain**🦜🔗.
-        This assistant is designed to streamline your cooking process, offering
-        tailored recipe suggestions, step-by-step cooking guidance, and helpful
-        tips based on your preferences and ingredients on hand.
+        Добро пожаловать в **AI Cooking Assistant**
+        — вашего интеллектуального кухонного помощника,
+        работающего на основе искусственного интеллекта,
+        который помогает находить идеальные рецепты и
+        удивлять уникальными кулинарными решениями!
 
-        Whether you're a seasoned chef or a kitchen beginner, the AI Coocking
-        Assistant can make your cooking experience more enjoyable, efficient,
-        and creative. Ready to elevate your culinary skills?
-        Let's cook together!
+        Этот высокотехнологичный ассистент использует передовые технологии
+        **Large Language Model** 🤖 и фреймворк **LangChain** 🦜🔗,
+        чтобы предложить персонализированные рекомендации по рецептам,
+        создать уникальные блюда и предоставить возможность
+        визуального сравнения различных кулинарных решений.
         """
     )
     # Голосовой ввод
-    audio_input = st.experimental_audio_input("Голосовой запрос🎙️")
+    audio_input = st.experimental_audio_input("Голосовой ввод 🎙️")
 
-st.title("Your Chat")
+st.title("🤖AI ChatBot💬 (Online 🟢)")
 
 # Инициализация сессии
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
 # Ввод запроса пользователя
-text_input = st.chat_input("Ваш запрос")
+text_input = st.chat_input("Какие ингредиенты предпочитаете?")
 
 # Вывод чата из сессии
 for message in st.session_state.messages:
