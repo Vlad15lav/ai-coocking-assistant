@@ -8,23 +8,23 @@
 
 Сценарии использования:
 - Персональная рекомендация блюда.
-- AI помощник для официантов в ресторанах.
+- AI помощник для официантов в ресторанах по их меню.
 - Стандартная задача поиска по запросу пользователя.
 - Поиск вдохновения для приготовления блюда.
 
 ## Особенности реализации
 
 Основные модели и подходы, которые использовались при реализации:
-- Использование модели Llama 3.1 70b от Groq API для LLM-агента.
-- Создание RAG рецептов с помощью эмбеддингов LaBSE RU Turbo и векторизации FAISS.
+- Использование модели Llama 3.1 70b от [Groq API](https://console.groq.com) для LLM-агента.
+- Создание RAG рецептов с помощью эмбеддингов [LaBSE RU Turbo](https://huggingface.co/sergeyzh/LaBSE-ru-turbo) и векторизации FAISS.
 - Написание агента с Router Chain для четырех инструментов с LLM и промптом.
-- Поиск изображений с помощью DuckDuckGo Search API.
-- Использование модели Whisper Large v3 Turbo от HuggingFace для голосового ввода.
-- Реализация приложения для инференса с помощью Streamlit Cloud.
+- Поиск изображений с помощью [DuckDuckGo](https://pypi.org/project/duckduckgo-search/#4-images---image-search-by-duckduckgocom) Search API.
+- Использование модели [Whisper Large v3 Turbo](https://huggingface.co/openai/whisper-large-v3-turbo) от HuggingFace для голосового ввода.
+- Реализация приложения для инференса с помощью [Streamlit Cloud](https://streamlit.io/cloud).
 
 Дальнейшие возможные улучшения проекта:
 - Добавление памяти для LLM-агента.
-- Fine-tuning LLM на данных рецептов с помощью LoRa.
+- Fine-Tuning LLM на данных рецептов с помощью LoRa.
 - Добавление RAG на текстах кулинарных книг.
 - Реализация Telegram-бота.
 
@@ -33,18 +33,24 @@
 
 1. Установите Python 3.11.
 
-2. Установите необходимые зависимости:
+2. Клонирование репозитория:
+    ```bash
+    git clone https://github.com/Vlad15lav/ai-coocking-assistant.git
+    cd ai-coocking-assistant
+    ```
+
+3. Установите необходимые зависимости:
     ```bash
     pip install -r requirements.txt
     ```
 
-3. Настройте API ключи для работы с моделями ([Groq API](https://console.groq.com), [HuggingFace](https://huggingface.co/) Token).
-    ```toml
+4. Настройте API ключи для работы с моделями ([Groq API](https://console.groq.com), [HuggingFace](https://huggingface.co/)).
+    ```
     OPENAI_API_KEY=<YOUR_KEY>
     HF_TOKEN=<YOUR_KEY>
     ```
 
-4. Запустите приложение:
+5. Запустите приложение:
     ```bash
     cd ./src
     streamlit run streamlit_app.py
@@ -66,7 +72,7 @@
 
 В качестве хранилища эмбеддингов и механизма поиска (Retriever) была выбрана библиотека [FAISS](https://python.langchain.com/docs/integrations/vectorstores/faiss/), что позволяет эффективно обрабатывать и хранить векторы, обеспечивая быстрый доступ к необходимой информации для контекста промпта. Среди нескольких рецептов, предложенных ретривером, LLM рекомендует блюдо или генерирует новое на основе контекста.
 
-Если пользователю необходимо найти фотографию блюда, то сначала LLM фильтрует запрос пользователя для DuckDuckGo API, которое возвращает изображение из интернета.
+Если пользователю необходимо найти фотографию блюда, то сначала LLM фильтрует запрос пользователя для [DuckDuckGo](https://pypi.org/project/duckduckgo-search/#4-images---image-search-by-duckduckgocom) API, которое возвращает изображение из интернета.
 
 ## Deploy
 
