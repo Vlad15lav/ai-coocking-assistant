@@ -64,7 +64,7 @@ st.set_page_config(
     )
 
 # Инициализация агента
-agent_executor = load_agent()
+# agent_executor = load_agent()
 
 # Левый sidebar
 with st.sidebar:
@@ -128,7 +128,7 @@ if text_input or audio_input:
         })
 
     # Вызов агента
-    agent_result = agent_executor.invoke(user_query)
+    agent_result = None #agent_executor.invoke(user_query)
 
     # Ответ агента
     with st.chat_message("assistant"):
