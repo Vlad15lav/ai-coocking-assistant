@@ -51,7 +51,7 @@ def load_agent():
     )
 
     # Инициализация агента
-    agent_executor = AgentSystem(llm=llm, retriever=retriever)
+    agent_executor = AgentSystem(llm=llm, retriever=retriever, k=6)
 
     return agent_executor
 
@@ -98,9 +98,14 @@ with st.sidebar:
 
 st.title("🤖AI ChatBot💬 (Online 🟢)")
 
-# Инициализация сессии
+# Инициализация сессии и памяти агента
 if "messages" not in st.session_state:
     st.session_state.messages = []
+
+if "agent_memory" not in st.session_state:
+    st.session_state.agent_memory = []
+
+agent_executor.initial_memory(st.session_state.agent_memory)
 
 # Ввод запроса пользователя
 text_input = st.chat_input("Какие ингредиенты предпочитаете?")
@@ -137,6 +142,7 @@ if text_input or audio_input:
 
     # Вызов агента
     agent_result = agent_executor.invoke(user_query)
+    st.session_state.agent_memory = agent_executor.get_chat_history()
 
     # Ответ агента
     with st.chat_message("assistant"):
