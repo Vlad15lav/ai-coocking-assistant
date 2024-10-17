@@ -34,6 +34,7 @@ Return the recipe text as in the description, """ + \
 {descripition}
 </descripition>
 
+{chat_history}
 Query: {query}
 
 Answer:"""
@@ -48,6 +49,7 @@ query and come up with your edible dish:
 {descripition}
 </descripition>
 
+{chat_history}
 Query: {query}
 
 Answer:"""
@@ -55,6 +57,19 @@ Answer:"""
 PROMPT_SEARCH = """You are an internet search expert,
 fix the user query and return only the name of the dish him need to find.
 
+{chat_history}
 Query: {query}
 
 Summary query:"""
+
+PROMPT_ENTITY_MEMORY = """You are the assistant for processing """ + \
+    """the result of a response for memory in LangChain.
+Summarize the response that contains only action agent and """ + \
+    """the name of the dish that the agent returned.
+Keep the language of the response.
+
+<response>
+{input}
+</response>
+
+Summary:"""
