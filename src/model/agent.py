@@ -25,7 +25,7 @@ class AgentSystem:
     """AI Coocking Assistant
     """
     def __init__(self, llm, retriever, k=6):
-        """Initital Agent
+        """Инициализация агента
 
         Args:
             llm: Large Language Model
@@ -76,7 +76,7 @@ class AgentSystem:
 
         return result
 
-    def initital_memory(self, chat_history: list):
+    def initial_memory(self, chat_history: list):
         """Инициализация памяти для агента
 
         Args:
