@@ -1,4 +1,5 @@
 import os
+import logging
 import asyncio
 import streamlit as st
 
@@ -141,8 +142,14 @@ if text_input or audio_input:
         })
 
     # Вызов агента
-    agent_result = agent_executor.invoke(user_query)
-    st.session_state.agent_memory = agent_executor.get_chat_history()
+    try:
+        agent_result = agent_executor.invoke(user_query)
+        st.session_state.agent_memory = agent_executor.get_chat_history()
+    except Exception as e:
+        agent_result = {
+            "output": None
+            }
+        logging.error(e)
 
     # Ответ агента
     with st.chat_message("assistant"):
