@@ -21,9 +21,10 @@
 - Поиск изображений с помощью [DuckDuckGo](https://pypi.org/project/duckduckgo-search/#4-images---image-search-by-duckduckgocom) Search API.
 - Использование модели [Whisper Large v3 Turbo](https://huggingface.co/openai/whisper-large-v3-turbo) от HuggingFace для голосового ввода.
 - Реализация приложения для инференса с помощью [Streamlit Cloud](https://streamlit.io/cloud).
+- Реализация кастомной памяти (ConversationEntityMemory) для агента.
 
 Дальнейшие возможные улучшения проекта:
-- Добавление памяти для LLM-агента.
+- ~~Добавление памяти для LLM-агента.~~
 - Fine-Tuning LLM на данных рецептов с помощью LoRa.
 - Добавление RAG на текстах кулинарных книг.
 - Реализация Telegram-бота.
