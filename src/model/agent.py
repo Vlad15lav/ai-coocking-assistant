@@ -77,7 +77,6 @@ class AgentSystem:
 
         self.chat_history = self.chat_history[-self.k:]
 
-        print(self.chat_history)
         return result
 
     def initial_memory(self, chat_history: list):
