@@ -1,7 +1,7 @@
 from operator import itemgetter
 
 from langchain_core.prompts import PromptTemplate
-from langchain_core.runnables import RunnableLambda, RunnablePassthrough
+from langchain_core.runnables import RunnableLambda
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.messages import AIMessage, HumanMessage
 
@@ -10,7 +10,7 @@ from model.prompt import (
     PROMPT_ASSISTANT,
     PROMPT_RECOMMENDER,
     PROMPT_GENERATER,
-    PROMPT_SEARCH,
+    PROMPT_FILTER,
     PROMPT_ENTITY_MEMORY
 )
 from tools.utils import (
@@ -64,12 +64,15 @@ class AgentSystem:
         if result['task'] == "Unknown":
             return result
 
-        self.chat_history.append(HumanMessage(content=query))
+        self.chat_history.append(HumanMessage(content=f"Query: {query}"))
 
         if result['task'] == "Search Image":
-            self.chat_history.append(AIMessage(content="Нашел изображение."))
+            self.chat_history.append(
+                AIMessage(content="Answer: Нашел изображение.")
+                )
         else:
             summary_response = self.memory_entity.invoke(result['output'])
+            summary_response = f"Answer: {summary_response}"
             self.chat_history.append(AIMessage(content=summary_response))
 
         self.chat_history = self.chat_history[-self.k:]
@@ -134,7 +137,8 @@ class AgentSystem:
         """Создание цепочки для для ассистента
         """
         assistant_chain = (
-            PromptTemplate.from_template(PROMPT_ASSISTANT)
+            {"query": itemgetter("input")}
+            | PromptTemplate.from_template(PROMPT_ASSISTANT)
             | self.llm
             | {"output": lambda x: x.content, "task": lambda x: "About Me"}
         )
@@ -146,7 +150,13 @@ class AgentSystem:
         """
         recommender_chain = (
             {
-                "descripition": itemgetter("input")
+                "descripition": {
+                    "query": itemgetter("input"),
+                    "chat_history": itemgetter("chat_history")
+                    }
+                | PromptTemplate.from_template(PROMPT_FILTER)
+                | self.llm
+                | StrOutputParser()
                 | self.retriever
                 | format_docs_with_links,
                 "query": itemgetter("input"),
@@ -165,7 +175,13 @@ class AgentSystem:
         """
         generater_chain = (
             {
-                "descripition": itemgetter("input")
+                "descripition": {
+                    "query": itemgetter("input"),
+                    "chat_history": itemgetter("chat_history")
+                    }
+                | PromptTemplate.from_template(PROMPT_FILTER)
+                | self.llm
+                | StrOutputParser()
                 | self.retriever
                 | format_docs,
                 "query": itemgetter("input"),
@@ -184,10 +200,10 @@ class AgentSystem:
         """
         search_chain = (
             {
-                "query": RunnablePassthrough(),
+                "query": itemgetter("input"),
                 "chat_history": itemgetter("chat_history")
             }
-            | PromptTemplate.from_template(PROMPT_SEARCH)
+            | PromptTemplate.from_template(PROMPT_FILTER)
             | self.llm
             | {"query": lambda x: x.content}
             | search_image
