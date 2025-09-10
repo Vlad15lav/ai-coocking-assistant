@@ -19,7 +19,7 @@ def load_agent():
     # Инициализация LLM
     llm = ChatOpenAI(
         base_url="https://api.groq.com/openai/v1",
-        model="llama-3.3-70b-versatile",
+        model="llama-3.1-70b-versatile",
         api_key=os.environ.get("OPENAI_API_KEY"),
         temperature=0.0
     )
@@ -178,4 +178,5 @@ if text_input or audio_input:
             "role": "assistant",
             "content": agent_content
         })
+
 
